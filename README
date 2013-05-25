@@ -1,1 +1,9 @@
-This file was created by IntelliJ IDEA (Community Edition) IC-129.549 for binding GitHub repository
+4 Tiny Notes (GriddyTest) is a simple Android note taking app. The main
+activity shows 4 small windows where the user can load or edit a note, and
+clear the current window.
+
+I made this simple app to start getting back to Android programming seriously,
+starting with re-familiarizing myself with basic concepts, as well as exploring
+fragments for the first time.
+
+This app is incomplete; it is useable but still needs lots of work.
