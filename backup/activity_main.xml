@@ -1,0 +1,45 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    android:background="#F7F7F7"
+    tools:context=".MainActivity" >
+    
+    <FrameLayout
+        android:id="@+id/cell1"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:padding="5dp" />
+    
+    <FrameLayout 
+        android:id="@+id/cell2"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:padding="5dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true" 
+        android:layout_toRightOf="@+id/cell1" />
+    
+    <FrameLayout 
+        android:id="@+id/cell3"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:padding="5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true" 
+        android:layout_below="@+id/cell1" />
+    
+    <FrameLayout 
+        android:id="@+id/cell4"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:padding="5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true" 
+        android:layout_below="@+id/cell2"
+        android:layout_toRightOf="@+id/cell3" />
+
+</RelativeLayout>

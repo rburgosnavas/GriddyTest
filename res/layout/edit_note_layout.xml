@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/card_background"
+              android:baselineAligned="false"
+              android:orientation="vertical"
+              android:padding="8dp">
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/card_blue_background">
+        <Button
+                android:id="@+id/save_edit_btn"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="top|left"
+                android:background="@drawable/save_btn_selector"/>
+        <EditText
+                android:id="@+id/note_title_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:padding="12dp"
+                android:hint="@string/edit_title_hint"
+                android:singleLine="true"
+                android:typeface="serif"
+                android:textColor="#FF000000"
+                android:capitalize="sentences"
+                android:textCursorDrawable="@null"
+                android:background="@null"/>
+    </LinearLayout>
+
+    <EditText
+            android:id="@+id/note_et"
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/edit_note_hint"
+            android:gravity="top"
+            android:typeface="serif"
+            android:textColor="#000"
+            android:capitalize="sentences"
+            android:textCursorDrawable="@null"
+            android:background="@null"/>
+
+</LinearLayout>
