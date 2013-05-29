@@ -13,7 +13,8 @@ import android.widget.Toast;
 import java.util.List;
 
 public class NotesListActivity extends Activity implements
-		AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
+		AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
+		ActionMode.Callback
 {
 	List<Note> notes;
 	ListView notesListView;
@@ -22,7 +23,6 @@ public class NotesListActivity extends Activity implements
 	View tmpView;
 
 	private ActionMode actionMode;
-	private ActionMode.Callback actionModeCallback;
 
 	Intent intent;
 	NoteDataSource dataSource;
@@ -45,55 +45,13 @@ public class NotesListActivity extends Activity implements
 		notesListView.setAdapter(adapter);
 		notesListView.setOnItemClickListener(this);
 		notesListView.setOnItemLongClickListener(this);
+	}
 
-		actionModeCallback = new ActionMode.Callback()
-		{
-			@Override
-			public boolean onCreateActionMode(ActionMode mode, Menu menu)
-			{
-				MenuInflater inflater = getMenuInflater();
-				inflater.inflate(R.menu.note_list, menu);
-				return true;
-			}
-
-			@Override
-			public boolean onPrepareActionMode(ActionMode mode, Menu menu)
-			{
-				return false;
-			}
-
-			@Override
-			public boolean onActionItemClicked(ActionMode mode, MenuItem item)
-			{
-				switch (item.getItemId())
-				{
-					case R.id.delete:
-						tmpView.animate().setDuration(500).alpha(0).
-								withEndAction(new Runnable()
-						{
-							@Override
-							public void run()
-							{
-								notes.remove(note);
-								adapter.notifyDataSetChanged();
-								tmpView.setAlpha(1);
-								tmpView.animate().setDuration(250).alpha(1);
-								dataSource.deleteNote(note);
-							}
-						});
-						mode.finish();
-						return true;
-					default:
-						return false;
-				}
-			}
-
-			@Override
-			public void onDestroyActionMode(ActionMode mode)
-			{
-				actionMode = null;
-			}
-		};
+	private void setNoteIntent(long id, String title, String text)
+	{
+		intent.putExtra("idParam", id);
+		intent.putExtra("titleParam", title);
+		intent.putExtra("textParam", text);
 	}
 
 	@Override
@@ -101,9 +59,7 @@ public class NotesListActivity extends Activity implements
 	                        long id)
 	{
 		note = (Note) parent.getItemAtPosition(position);
-		intent.putExtra("idParam", note.getId());
-		intent.putExtra("titleParam", note.getNoteTitle());
-		intent.putExtra("textParam", note.getNoteText());
+		setNoteIntent(note.getId(), note.getNoteTitle(), note.getNoteText());
 		setResult(RESULT_OK, intent);
 		finish();
 	}
@@ -116,7 +72,55 @@ public class NotesListActivity extends Activity implements
 		Log.i("NotesListActivity", view.getClass().getSimpleName());
 		tmpView = view;
 		note = (Note) parent.getItemAtPosition(position);
-		actionMode = startActionMode(actionModeCallback);
+		setNoteIntent(0, note.getNoteTitle(), note.getNoteText());
+		setResult(RESULT_OK, intent);
+		actionMode = startActionMode(this);
 		return true;
+	}
+
+	@Override
+	public boolean onCreateActionMode(ActionMode mode, Menu menu)
+	{
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.note_list, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onPrepareActionMode(ActionMode mode, Menu menu)
+	{
+		return false;
+	}
+
+	@Override
+	public boolean onActionItemClicked(ActionMode mode, MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+			case R.id.delete:
+				dataSource.deleteNote(note);
+				tmpView.animate().setDuration(500).alpha(0).
+						withEndAction(new Runnable()
+						{
+							@Override
+							public void run()
+							{
+								notes.remove(note);
+								adapter.notifyDataSetChanged();
+								tmpView.setAlpha(1);
+								tmpView.animate().setDuration(250).alpha(1);
+							}
+						});
+				mode.finish();
+				return true;
+			default:
+				return false;
+		}
+	}
+
+	@Override
+	public void onDestroyActionMode(ActionMode mode)
+	{
+		actionMode = null;
 	}
 }
