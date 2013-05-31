@@ -19,9 +19,11 @@ public class CellFragment extends Fragment implements OnClickListener,
 		View.OnLongClickListener
 {
     private static final String TAG = CellFragment.class.getSimpleName();
-	private static final String ID_ARG= "id_arg";
-	private static final String TITLE_ARG = "title_arg";
-	private static final String TEXT_ARG = "text_arg";
+	public static final String ID_ARG = "id";
+	public static final String TITLE_ARG = "title";
+	public static final String TEXT_ARG = "text";
+
+	private String idId, titleId, textId;
 
     private TextView tv;
     private Button refreshBtn, clearBtn, editBtn;
@@ -30,7 +32,7 @@ public class CellFragment extends Fragment implements OnClickListener,
 	private ActionMode actionMode;
 	private ActionMode.Callback actionModeCallback;
 
-    private String titleParam, textParam;
+    private String title, text;
 	private long id;
 
     private final int shortAnimTime = 750;
@@ -42,8 +44,8 @@ public class CellFragment extends Fragment implements OnClickListener,
      * Use this factory method to create a new instance of this fragment using
      * the provided parameters.
      *
-     * @param text
-     *            Parameter 1.
+     * @param title The note's title
+     * @param text The note's text
      * @return A new instance of fragment CellFragment.
      */
     public static CellFragment newInstance(String title, String text)
@@ -65,7 +67,7 @@ public class CellFragment extends Fragment implements OnClickListener,
 
     public CellFragment()
     {
-        // Required empty public constructor
+
     }
 
     @Override
@@ -74,10 +76,12 @@ public class CellFragment extends Fragment implements OnClickListener,
         super.onCreate(savedInstanceState);
         if (getArguments() != null)
         {
-            titleParam = getArguments().getString(TITLE_ARG);
-	        textParam = getArguments().getString(TEXT_ARG);
+            title = getArguments().getString(TITLE_ARG);
+	        text = getArguments().getString(TEXT_ARG);
         }
-        Log.i(TAG, "onCreate");
+	    idId = TAG + getId() + "-id";
+	    titleId = TAG + getId() + "-title";
+	    textId = TAG + getId() + "-text";
     }
 
     @Override
@@ -98,12 +102,12 @@ public class CellFragment extends Fragment implements OnClickListener,
 
         tv = (TextView)root.findViewById(R.id.frag_cell_tv);
 
-	    // TODO this is new for actionbar test
+	    // TODO this is new for ActionBar test
 	    tv.setOnLongClickListener(this);
 
-        if (textParam != null)
+        if (text != null)
         {
-            tv.setText(textParam);
+            tv.setText(text);
         }
 
 	    v = root.findViewById(R.id.frag_cell_scroll);
@@ -147,47 +151,37 @@ public class CellFragment extends Fragment implements OnClickListener,
 		    }
 	    };
 
-        Log.i(TAG, "onCreateView");
-	    Log.i(TAG, "fragment ID: " + getId());
-
         return root;
     }
 
     public void setCrossfadeText(String text)
     {
-        if (tv != null)
-        {
-            this.tv.animate().
-                    alpha(0f).
-                    setDuration(shortAnimTime).
-                    setListener(new AnimatorListenerAdapter()
-                    {
-                        @Override
-                        public void onAnimationStart(Animator animation)
-                        {
-                            tv.setVisibility(View.VISIBLE);
-                        }
+	    this.tv.animate().
+			    alpha(0f).
+			    setDuration(shortAnimTime).
+			    setListener(new AnimatorListenerAdapter()
+			    {
+				    @Override
+				    public void onAnimationStart(Animator animation)
+				    {
+					    tv.setVisibility(View.VISIBLE);
+				    }
 
-                        @Override
-                        public void onAnimationEnd(Animator animation)
-                        {
-                            tv.setVisibility(View.GONE);
-                        }
-                    });
+				    @Override
+				    public void onAnimationEnd(Animator animation)
+				    {
+					    tv.setVisibility(View.GONE);
+				    }
+			    });
 
-            tv.setText(text);
+	    tv.setText(text);
 
-            this.tv.setAlpha(0f);
-            this.tv.setVisibility(View.VISIBLE);
-            this.tv.animate().
-                    alpha(1f).
-                    setDuration(shortAnimTime).
-                    setListener(null);
-        }
-        else
-        {
-            Log.i(TAG, TAG + "#TextView is null");
-        }
+	    this.tv.setAlpha(0f);
+	    this.tv.setVisibility(View.VISIBLE);
+	    this.tv.animate().
+			    alpha(1f).
+			    setDuration(shortAnimTime).
+			    setListener(null);
     }
 
     public void onButtonPressed()
@@ -203,7 +197,6 @@ public class CellFragment extends Fragment implements OnClickListener,
     public void onAttach(Activity activity)
     {
         super.onAttach(activity);
-        Log.i(TAG, "onAttach");
         try
         {
             mListener = (OnFragmentInteractionListener) activity;
@@ -229,11 +222,11 @@ public class CellFragment extends Fragment implements OnClickListener,
 
 		if (requestCode == 1 && resultCode == Activity.RESULT_OK)
 		{
-			id = data.getExtras().getLong("idParam");
-			titleParam = data.getExtras().getString("titleParam");
-			textParam = data.getExtras().getString("textParam");
-			Log.i(TAG, id + ") " + titleParam + ":" + textParam + " was passed.");
-			setCrossfadeText(textParam);
+			id = data.getExtras().getLong(CellFragment.ID_ARG);
+			title = data.getExtras().getString(CellFragment.TITLE_ARG);
+			text = data.getExtras().getString(CellFragment.TEXT_ARG);
+			Log.i(TAG, id + ") " + title + ":" + text + " was passed.");
+			setCrossfadeText(text);
 			isEdited = true;
 		}
 	}
@@ -246,11 +239,10 @@ public class CellFragment extends Fragment implements OnClickListener,
 		{
 			SharedPreferences prefs =
 					getActivity().getPreferences(Context.MODE_PRIVATE);
-			id = prefs.getLong(TAG + getId() + "-id", 0);
-			titleParam = prefs.getString(TAG + getId() + "-title", "");
-			textParam = prefs.getString(TAG + getId() + "-text", "");
-			Log.i(TAG, textParam + " was intersepted?");
-			tv.setText(textParam);
+			id = prefs.getLong(idId, 0);
+			title = prefs.getString(titleId, "");
+			text = prefs.getString(textId, "");
+			tv.setText(text);
 			isEdited = false;
 		}
 	}
@@ -262,9 +254,9 @@ public class CellFragment extends Fragment implements OnClickListener,
 		SharedPreferences prefs =
 				getActivity().getPreferences(Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor= prefs.edit();
-		editor.putLong(TAG + getId() + "-id", id);
-		editor.putString(TAG + getId() + "-title", titleParam);
-		editor.putString(TAG + getId() + "-text", textParam);
+		editor.putLong(idId, id);
+		editor.putString(titleId, title);
+		editor.putString(textId, text);
 		editor.commit();
 	}
 
@@ -283,17 +275,17 @@ public class CellFragment extends Fragment implements OnClickListener,
 		        // Start the edit note activity and pass title and note text
 		        Intent editNoteIntent = new Intent(getActivity(),
 				        EditNoteActivity.class);
-		        editNoteIntent.putExtra("idParam", id);
-		        editNoteIntent.putExtra("titleParam", titleParam);
-		        editNoteIntent.putExtra("textParam", textParam);
+		        editNoteIntent.putExtra(CellFragment.ID_ARG, id);
+		        editNoteIntent.putExtra(CellFragment.TITLE_ARG, title);
+		        editNoteIntent.putExtra(CellFragment.TEXT_ARG, text);
 		        startActivityForResult(editNoteIntent, 1);
 		        break;
 	        case R.id.clear_btn:
 		        // Clear the note
 		        id = 0;
-		        titleParam = "";
-		        textParam = "";
-		        this.setCrossfadeText(textParam);
+		        title = "";
+		        text = "";
+		        this.setCrossfadeText(text);
 		        break;
             default:
                 break;

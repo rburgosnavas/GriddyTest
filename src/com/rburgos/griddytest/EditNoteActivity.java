@@ -27,9 +27,9 @@ public class EditNoteActivity extends Activity implements View.OnClickListener
         setContentView(R.layout.edit_note_layout);
 
         intent = getIntent();
-	    id = intent.getExtras().getLong("idParam");
-	    titleParam = intent.getExtras().getString("titleParam");
-	    textParam = intent.getExtras().getString("textParam");
+	    id = intent.getExtras().getLong(CellFragment.ID_ARG);
+	    titleParam = intent.getExtras().getString(CellFragment.TITLE_ARG);
+	    textParam = intent.getExtras().getString(CellFragment.TEXT_ARG);
 
 	    dataSource = new NoteDataSource(this);
 	    dataSource.open();
@@ -66,8 +66,8 @@ public class EditNoteActivity extends Activity implements View.OnClickListener
             case R.id.save_edit_btn:
 	            titleParam = titleEt.getText().toString();
                 textParam = noteEt.getText().toString();
-	            intent.putExtra("titleParam", titleParam);
-	            intent.putExtra("textParam", textParam);
+	            intent.putExtra(CellFragment.TITLE_ARG, titleParam);
+	            intent.putExtra(CellFragment.TEXT_ARG, textParam);
 	            if (id <= 0)
 	            {
 		            id = dataSource.addNote(titleParam, textParam);
@@ -78,7 +78,7 @@ public class EditNoteActivity extends Activity implements View.OnClickListener
 		            dataSource.updateNote(id, titleParam, textParam);
 		            Log.i(TAG, "Note updated at ID " + id);
 	            }
-	            intent.putExtra("idParam", id);
+	            intent.putExtra(CellFragment.ID_ARG, id);
                 setResult(RESULT_OK, intent);
                 finish();
                 break;

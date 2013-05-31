@@ -16,7 +16,7 @@ public class NoteDBOpenHelper extends SQLiteOpenHelper
             "create table " + NOTE_TABLE + "( " +
             KEY_ID + " integer primary key autoincrement, " +
 		    TITLE + " text not null, " +
-		            TEXT + " text);";
+		    TEXT + " text);";
     private static final String DB_DROP = "drop table if it exists " +
             NOTE_TABLE;
 

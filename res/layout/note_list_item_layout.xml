@@ -4,7 +4,7 @@
           android:layout_width="match_parent"
           android:layout_height="match_parent"
           android:background="@drawable/card_background"
-          android:padding="16dp"
+          android:padding="20dp"
           android:typeface="serif"
           android:textColor="#000">
 

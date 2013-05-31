@@ -66,26 +66,6 @@ public class NoteDataSource
 	}
 
 	/**
-	 * Gets a note from the database based on the ID requested
-	 *
-	 * @param id The ID of the note requested
-	 * @return The note retrieved by ID
-	 */
-	public Note getNote(long id)
-	{
-		Cursor cursor = database.query(NoteDBOpenHelper.NOTE_TABLE, columns,
-				NoteDBOpenHelper.KEY_ID + " = " + id, null, null, null,
-				null);
-		cursor.moveToFirst();
-
-		Note note = new Note(cursor.getLong(0), cursor.getString(1),
-				cursor.getString(2));
-		cursor.close();
-
-		return note;
-	}
-
-	/**
 	 * Removes a note based on it's ID. Return true if a note was deleted,
 	 * false otherwise
 	 *
@@ -96,20 +76,6 @@ public class NoteDataSource
 	{
 		return database.delete(NoteDBOpenHelper.NOTE_TABLE,
 				NoteDBOpenHelper.KEY_ID + " = " + note.getId(),
-				null) > 0;
-	}
-
-	/**
-	 * Removes a note based on it's ID. Return true if the note was deleted,
-	 * false otherwise
-	 *
-	 * @param id The note of the note to delete
-	 * @return true if the note was deleted, false otherwise
-	 */
-	public boolean deleteNote(long id)
-	{
-		return database.delete(NoteDBOpenHelper.NOTE_TABLE,
-				NoteDBOpenHelper.KEY_ID + " = " + id,
 				null) > 0;
 	}
 

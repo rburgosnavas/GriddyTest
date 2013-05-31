@@ -6,19 +6,19 @@ package com.rburgos.griddytest;
 public class Note
 {
 	private long id;
-	private String noteText;
-	private String noteTitle;
+	private String title;
+	private String text;
 
-    public Note (long id, String noteTitle, String noteText)
+    public Note (long id, String title, String text)
     {
 	    this.id = id;
-	    this.noteTitle = noteTitle;
-	    this.noteText = noteText;
+	    this.title = title;
+	    this.text = text;
     }
 
-	public Note (String noteText, String noteTitle)
+	public Note (String title, String text)
 	{
-		this(0, noteText, noteTitle);
+		this(0, title, text);
 	}
 
 	public long getId()
@@ -31,29 +31,29 @@ public class Note
 		this.id = id;
 	}
 
-	public String getNoteTitle()
+	public String getTitle()
 	{
-		return noteTitle;
+		return title;
 	}
 
-	public void setNoteTitle(String noteTitle)
+	public void setTitle(String title)
 	{
-		this.noteTitle = noteTitle;
+		this.title = title;
 	}
 
-	public String getNoteText()
+	public String getText()
 	{
-		return noteText;
+		return text;
 	}
 
-	public void setNoteText(String noteText)
+	public void setText(String text)
 	{
-		this.noteText = noteText;
+		this.text = text;
 	}
 
 	@Override
 	public String toString()
 	{
-		return this.noteTitle;
+		return this.title;
 	}
 }

@@ -15,9 +15,9 @@ public class MainActivity extends FragmentActivity
 {
     private final static String TAG = MainActivity.class.getSimpleName();
 
-    FragmentManager fragManager;
-    FragmentTransaction fragTransaction;
-    CellFragment cell1, cell2, cell3, cell4;
+    private FragmentManager fragManager;
+    private FragmentTransaction fragTransaction;
+    private CellFragment cell1, cell2, cell3, cell4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -40,11 +40,7 @@ public class MainActivity extends FragmentActivity
             fragTransaction.add(R.id.cell3, cell3);
             fragTransaction.add(R.id.cell4, cell4);
             fragTransaction.commit();
-
-            Log.i(TAG, "savedInstanceState is null and fragments have been created.");
         }
-
-        Log.i(TAG, TAG + " started.......");
     }
 
     @Override

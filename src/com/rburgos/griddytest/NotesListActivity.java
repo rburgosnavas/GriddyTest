@@ -8,7 +8,6 @@ import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -16,16 +15,17 @@ public class NotesListActivity extends Activity implements
 		AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
 		ActionMode.Callback
 {
-	List<Note> notes;
-	ListView notesListView;
-	ArrayAdapter<Note> adapter;
-	Note note;
-	View tmpView;
+	private static final String TAG = NotesListActivity.class.getSimpleName();
+	private List<Note> notes;
+	private ListView notesListView;
+	private ArrayAdapter<Note> adapter;
+	private Note note;
+	private View tmpView;
 
 	private ActionMode actionMode;
 
-	Intent intent;
-	NoteDataSource dataSource;
+	private Intent intent;
+	private NoteDataSource dataSource;
 
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -39,8 +39,11 @@ public class NotesListActivity extends Activity implements
 		notes = dataSource.getAllNotes();
 
 		notesListView = (ListView) findViewById(R.id.note_list_view);
+		/* Using a standard ArrayAdapter...
 		adapter = new ArrayAdapter<Note>(this, R.layout.note_list_item_layout,
 				notes);
+		... replaced with a custom implementation */
+		adapter = new NotesArrayAdapter(this, notes);
 
 		notesListView.setAdapter(adapter);
 		notesListView.setOnItemClickListener(this);
@@ -49,9 +52,9 @@ public class NotesListActivity extends Activity implements
 
 	private void setNoteIntent(long id, String title, String text)
 	{
-		intent.putExtra("idParam", id);
-		intent.putExtra("titleParam", title);
-		intent.putExtra("textParam", text);
+		intent.putExtra(CellFragment.ID_ARG, id);
+		intent.putExtra(CellFragment.TITLE_ARG, title);
+		intent.putExtra(CellFragment.TEXT_ARG, text);
 	}
 
 	@Override
@@ -59,7 +62,7 @@ public class NotesListActivity extends Activity implements
 	                        long id)
 	{
 		note = (Note) parent.getItemAtPosition(position);
-		setNoteIntent(note.getId(), note.getNoteTitle(), note.getNoteText());
+		setNoteIntent(note.getId(), note.getTitle(), note.getText());
 		setResult(RESULT_OK, intent);
 		finish();
 	}
@@ -68,11 +71,11 @@ public class NotesListActivity extends Activity implements
 	public boolean onItemLongClick(AdapterView<?> parent, final View view,
 	                               int position, long id)
 	{
-		Log.i("NotesListActivity", "onLongClick() pressed");
-		Log.i("NotesListActivity", view.getClass().getSimpleName());
+		Log.i(TAG, "onLongClick() pressed");
+		Log.i(TAG, view.getClass().getSimpleName());
 		tmpView = view;
 		note = (Note) parent.getItemAtPosition(position);
-		setNoteIntent(0, note.getNoteTitle(), note.getNoteText());
+		setNoteIntent(0, note.getTitle(), note.getText());
 		setResult(RESULT_OK, intent);
 		actionMode = startActionMode(this);
 		return true;
