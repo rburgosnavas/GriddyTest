@@ -156,31 +156,27 @@ public class CellFragment extends Fragment implements OnClickListener,
 
     public void setCrossfadeText(String text)
     {
-	    this.tv.animate().
-			    alpha(0f).
-			    setDuration(shortAnimTime).
+	    this.tv.animate().alpha(0f).setDuration(shortAnimTime).
 			    setListener(new AnimatorListenerAdapter()
-			    {
-				    @Override
-				    public void onAnimationStart(Animator animation)
-				    {
-					    tv.setVisibility(View.VISIBLE);
-				    }
+	    {
+		    @Override
+		    public void onAnimationStart(Animator animation)
+		    {
+			    tv.setVisibility(View.VISIBLE);
+		    }
 
-				    @Override
-				    public void onAnimationEnd(Animator animation)
-				    {
-					    tv.setVisibility(View.GONE);
-				    }
-			    });
+		    @Override
+		    public void onAnimationEnd(Animator animation)
+		    {
+			    tv.setVisibility(View.GONE);
+		    }
+	    });
 
 	    tv.setText(text);
 
 	    this.tv.setAlpha(0f);
 	    this.tv.setVisibility(View.VISIBLE);
-	    this.tv.animate().
-			    alpha(1f).
-			    setDuration(shortAnimTime).
+	    this.tv.animate().alpha(1f).setDuration(shortAnimTime).
 			    setListener(null);
     }
 

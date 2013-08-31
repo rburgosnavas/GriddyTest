@@ -15,11 +15,8 @@ public class NoteDataSource
 	private static final String TAG = NoteDataSource.class.getSimpleName();
 	private SQLiteDatabase database;
 	private NoteDBOpenHelper helper;
-	private String[] columns = {
-			NoteDBOpenHelper.KEY_ID,
-			NoteDBOpenHelper.TITLE,
-			NoteDBOpenHelper.TEXT
-	};
+	private String[] columns = { NoteDBOpenHelper.ID, NoteDBOpenHelper.TITLE,
+			NoteDBOpenHelper.TEXT };
 
 	public NoteDataSource(Context con)
 	{
@@ -55,6 +52,14 @@ public class NoteDataSource
 				newNoteRow);
 	}
 
+	/**
+	 * Updates a note
+	 *
+	 * @param id
+	 * @param title
+	 * @param text
+	 * @return
+	 */
 	public boolean updateNote(long id, String title, String text)
 	{
 		ContentValues updateNoteRow = new ContentValues();
@@ -62,7 +67,7 @@ public class NoteDataSource
 		updateNoteRow.put(NoteDBOpenHelper.TEXT, text);
 
 		return database.update(NoteDBOpenHelper.NOTE_TABLE, updateNoteRow,
-				NoteDBOpenHelper.KEY_ID + " = " + id, null) > 0;
+				NoteDBOpenHelper.ID + " = " + id, null) > 0;
 	}
 
 	/**
@@ -75,10 +80,15 @@ public class NoteDataSource
 	public boolean deleteNote(Note note)
 	{
 		return database.delete(NoteDBOpenHelper.NOTE_TABLE,
-				NoteDBOpenHelper.KEY_ID + " = " + note.getId(),
+				NoteDBOpenHelper.ID + " = " + note.getId(),
 				null) > 0;
 	}
 
+	/**
+	 * Gets all notes in the database
+	 *
+	 * @return
+	 */
 	public List<Note> getAllNotes()
 	{
 		List<Note> notes = new ArrayList<Note>();

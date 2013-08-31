@@ -26,14 +26,17 @@ public class EditNoteActivity extends Activity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_note_layout);
 
+	    // Get the Intent from MainActivity and initialize Note related fields
         intent = getIntent();
 	    id = intent.getExtras().getLong(CellFragment.ID_ARG);
 	    titleParam = intent.getExtras().getString(CellFragment.TITLE_ARG);
 	    textParam = intent.getExtras().getString(CellFragment.TEXT_ARG);
 
+	    // Start a Datasource
 	    dataSource = new NoteDataSource(this);
 	    dataSource.open();
 
+	    // Widgets
         saveEditBtn = (Button)findViewById(R.id.save_edit_btn);
         saveEditBtn.setOnClickListener(this);
 
@@ -63,21 +66,30 @@ public class EditNoteActivity extends Activity implements View.OnClickListener
     {
         switch (v.getId())
         {
-            case R.id.save_edit_btn:
+            // Save
+	        case R.id.save_edit_btn:
 	            titleParam = titleEt.getText().toString();
                 textParam = noteEt.getText().toString();
+
+		        // Get title and test from the edited note
 	            intent.putExtra(CellFragment.TITLE_ARG, titleParam);
 	            intent.putExtra(CellFragment.TEXT_ARG, textParam);
+
+		        // If the ID is 0 or less then insert it to the db and get the
+		        // ID back...
 	            if (id <= 0)
 	            {
 		            id = dataSource.addNote(titleParam, textParam);
 		            Log.i(TAG, "New note added at ID " + id);
 	            }
+	            // ... else just update the current note
 	            else
 	            {
 		            dataSource.updateNote(id, titleParam, textParam);
 		            Log.i(TAG, "Note updated at ID " + id);
 	            }
+
+		        // Push all this stuff back to the calling activity
 	            intent.putExtra(CellFragment.ID_ARG, id);
                 setResult(RESULT_OK, intent);
                 finish();

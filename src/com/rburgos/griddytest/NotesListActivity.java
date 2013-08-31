@@ -104,16 +104,16 @@ public class NotesListActivity extends Activity implements
 				dataSource.deleteNote(note);
 				tmpView.animate().setDuration(500).alpha(0).
 						withEndAction(new Runnable()
-						{
-							@Override
-							public void run()
-							{
-								notes.remove(note);
-								adapter.notifyDataSetChanged();
-								tmpView.setAlpha(1);
-								tmpView.animate().setDuration(250).alpha(1);
-							}
-						});
+				{
+					@Override
+					public void run()
+					{
+						notes.remove(note);
+						adapter.notifyDataSetChanged();
+						tmpView.setAlpha(1);
+						tmpView.animate().setDuration(250).alpha(1);
+					}
+				});
 				mode.finish();
 				return true;
 			default:

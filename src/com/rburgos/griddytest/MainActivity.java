@@ -60,20 +60,6 @@ public class MainActivity extends FragmentActivity
     public void onConfigurationChanged(Configuration newConfig)
     {
         super.onConfigurationChanged(newConfig);
-
-        /* I was testing orientation changes with this code...
-
-        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT)
-        {
-            Toast.makeText(this, "portrait @ " + this.getClass().toString(),
-                    Toast.LENGTH_SHORT).show();
-        }
-        else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE)
-        {
-            Toast.makeText(this, "landscape @ " + this.getClass().toString(),
-                    Toast.LENGTH_SHORT).show();
-        }
-        */
     }
 
 	@Override
