@@ -1,4 +1,4 @@
-package com.rburgos.griddytest;
+package com.rburgos.fourtinynotes;
 
 import android.content.ContentValues;
 import android.content.Context;

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.rburgos.griddytest">
+          package="com.rburgos.fourtinynotes">
     <uses-sdk android:minSdkVersion="16"/>
     <application android:icon="@drawable/ic_launcher"
                  android:label="@string/app_name"
                  android:theme="@style/ftn_style">
-        <activity android:name=".MainActivity"
+        <activity android:name="com.rburgos.fourtinynotes.MainActivity"
                   android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".CellFragment"
-                  android:configChanges="orientation|screenSize"/>
-        <activity android:name=".EditNoteActivity"
+        <!--<activity android:name="com.rburgos.fourtinynotes.CellFragment"-->
+                  <!--android:configChanges="orientation|screenSize"/>-->
+        <activity android:name="com.rburgos.fourtinynotes.EditNoteActivity"
                   android:label="@string/edit_activity_name"/>
-        <activity android:name=".NotesListActivity"/>
+        <activity android:name="com.rburgos.fourtinynotes.NotesListActivity"/>
     </application>
 </manifest>

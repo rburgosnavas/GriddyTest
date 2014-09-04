@@ -1,4 +1,4 @@
-package com.rburgos.griddytest;
+package com.rburgos.fourtinynotes;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,8 +13,7 @@ import java.util.List;
 
 public class NotesListActivity extends Activity implements
 		AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
-		ActionMode.Callback
-{
+		ActionMode.Callback {
 	private static final String TAG = NotesListActivity.class.getSimpleName();
 	private List<Note> notes;
 	private ListView notesListView;
@@ -27,8 +26,7 @@ public class NotesListActivity extends Activity implements
 	private Intent intent;
 	private NoteDataSource dataSource;
 
-	public void onCreate(Bundle savedInstanceState)
-	{
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.notes_list);
 
@@ -50,17 +48,15 @@ public class NotesListActivity extends Activity implements
 		notesListView.setOnItemLongClickListener(this);
 	}
 
-	private void setNoteIntent(long id, String title, String text)
-	{
-		intent.putExtra(CellFragment.ID_ARG, id);
-		intent.putExtra(CellFragment.TITLE_ARG, title);
-		intent.putExtra(CellFragment.TEXT_ARG, text);
+	private void setNoteIntent(long id, String title, String text) {
+		intent.putExtra(Note.ID, id);
+		intent.putExtra(Note.TITLE, title);
+		intent.putExtra(Note.TEXT, text);
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
-	                        long id)
-	{
+	                        long id) {
 		note = (Note) parent.getItemAtPosition(position);
 		setNoteIntent(note.getId(), note.getTitle(), note.getText());
 		setResult(RESULT_OK, intent);
@@ -69,8 +65,7 @@ public class NotesListActivity extends Activity implements
 
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, final View view,
-	                               int position, long id)
-	{
+	                               int position, long id) {
 		Log.i(TAG, "onLongClick() pressed");
 		Log.i(TAG, view.getClass().getSimpleName());
 		tmpView = view;
@@ -82,38 +77,32 @@ public class NotesListActivity extends Activity implements
 	}
 
 	@Override
-	public boolean onCreateActionMode(ActionMode mode, Menu menu)
-	{
+	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.note_list, menu);
 		return true;
 	}
 
 	@Override
-	public boolean onPrepareActionMode(ActionMode mode, Menu menu)
-	{
+	public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
 		return false;
 	}
 
 	@Override
-	public boolean onActionItemClicked(ActionMode mode, MenuItem item)
-	{
-		switch (item.getItemId())
-		{
+	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+		switch (item.getItemId()) {
 			case R.id.delete:
 				dataSource.deleteNote(note);
 				tmpView.animate().setDuration(500).alpha(0).
-						withEndAction(new Runnable()
-				{
-					@Override
-					public void run()
-					{
-						notes.remove(note);
-						adapter.notifyDataSetChanged();
-						tmpView.setAlpha(1);
-						tmpView.animate().setDuration(250).alpha(1);
-					}
-				});
+						withEndAction(new Runnable() {
+							@Override
+							public void run() {
+								notes.remove(note);
+								adapter.notifyDataSetChanged();
+								tmpView.setAlpha(1);
+								tmpView.animate().setDuration(250).alpha(1);
+							}
+						});
 				mode.finish();
 				return true;
 			default:
@@ -122,8 +111,7 @@ public class NotesListActivity extends Activity implements
 	}
 
 	@Override
-	public void onDestroyActionMode(ActionMode mode)
-	{
+	public void onDestroyActionMode(ActionMode mode) {
 		actionMode = null;
 	}
 }

@@ -1,0 +1,43 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/card_background"
+    android:minHeight="100dp"
+    android:minWidth="100dp"
+    android:padding="8dp"
+    tools:context=".CellFragment">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_blue_background"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/menu_btn"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/load_btn_selector"
+            android:gravity="center" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/frag_cell_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="40dp">
+
+        <TextView
+            android:id="@+id/frag_cell_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#1F2022"
+            android:textIsSelectable="false"
+            android:typeface="serif"></TextView>
+
+    </ScrollView>
+
+</FrameLayout>

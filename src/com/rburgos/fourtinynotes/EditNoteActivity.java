@@ -1,4 +1,4 @@
-package com.rburgos.griddytest;
+package com.rburgos.fourtinynotes;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -28,9 +28,9 @@ public class EditNoteActivity extends Activity implements View.OnClickListener
 
 	    // Get the Intent from MainActivity and initialize Note related fields
         intent = getIntent();
-	    id = intent.getExtras().getLong(CellFragment.ID_ARG);
-	    titleParam = intent.getExtras().getString(CellFragment.TITLE_ARG);
-	    textParam = intent.getExtras().getString(CellFragment.TEXT_ARG);
+	    id = intent.getExtras().getLong(Note.ID);
+	    titleParam = intent.getExtras().getString(Note.TITLE);
+	    textParam = intent.getExtras().getString(Note.TEXT);
 
 	    // Start a Datasource
 	    dataSource = new NoteDataSource(this);
@@ -72,8 +72,8 @@ public class EditNoteActivity extends Activity implements View.OnClickListener
                 textParam = noteEt.getText().toString();
 
 		        // Get title and test from the edited note
-	            intent.putExtra(CellFragment.TITLE_ARG, titleParam);
-	            intent.putExtra(CellFragment.TEXT_ARG, textParam);
+	            intent.putExtra(Note.TITLE, titleParam);
+	            intent.putExtra(Note.TEXT, textParam);
 
 		        // If the ID is 0 or less then insert it to the db and get the
 		        // ID back...
@@ -90,7 +90,7 @@ public class EditNoteActivity extends Activity implements View.OnClickListener
 	            }
 
 		        // Push all this stuff back to the calling activity
-	            intent.putExtra(CellFragment.ID_ARG, id);
+	            intent.putExtra(Note.ID, id);
                 setResult(RESULT_OK, intent);
                 finish();
                 break;
